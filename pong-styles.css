@@ -3,77 +3,83 @@ Some properties like position and size get set by the game
 Feel free to play with things like color or font
 */
 
-html,
-body {
-  padding: 0;
+/* Center the game and use twink.gif as the background */
+html, body {
+  height: 100%;
   margin: 0;
 }
+
+/* Glow colors & easy tuning variables */
+:root{
+  --game-glow-main: rgba(255,255,255,0.14); /* soft white glow */
+  --game-glow-accent: rgba(123,104,238,0.08); /* subtle purple accent */
+  --paddle-glow: rgba(255,255,255,0.95); /* paddle highlight */
+  --paddle-glow-spread: rgba(123,104,238,0.20); /* paddle colored halo */
+}
+
+body {
+  display: flex;
+  align-items: center;     /* vertical center */
+  justify-content: center; /* horizontal center */
+  min-height: 100vh;
+
+  /* Use twink.gif from the repo root as the page background */
+  background-image: url("./twink.gif");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Game box centered by flexbox; its size is set by JS */
 #game {
   margin: 4px;
   border: 5px solid black;
-  left: 0;
-  position: absolute;
-  background-image: url("twink.gif");
-  background-size: cover;
+  position: relative; /* so absolute children stay inside #game */
+  background-color: rgba(0,0,0,0); /* transparent so page background shows */
+
+  /* Soft outer glow around the whole game */
+  box-shadow:
+    0 0 30px 6px var(--game-glow-main),
+    0 0 80px 18px var(--game-glow-accent);
+
+  /* subtle rounded corners for nicer glow */
+  border-radius: 6px;
+
+  /* optional subtle movement to make the glow feel alive (turn off if you want static) */
+  animation: gamePulse 3.5s ease-in-out infinite;
 }
 
-#left-paddle {
-  background-color: yellow;
-  left: 10px;
-  height: 25px;
-}
-
-#right-paddle {
-  background-color: black;
-  right: 10px;
- 
-  
-}
-
-#instructions {
-  display: none;
-  bottom: 0;
-  position: absolute;
-  margin: 10px;
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-#errors-debug {
-  display: none;
-  bottom: 0;
-  position: absolute;
-  margin: 10px;
-  padding-left: 400px;
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-#errors {
-  color: red;
-  font-weight: 700;
-}
-
-#computer-control-state {
-  font-weight: 700;
-}
-
-#mouse-control-state {
-  font-weight: 700;
-}
-
-#mute-state {
-  font-weight: 700;
-}
-
-#volume-state {
-  font-weight: 700;
-}
-
+/* Paddles */
 .paddle {
   top: 0;
   width: 5px;
   position: absolute;
+
+  /* white base and strong inner glow + colored halo */
+  box-shadow:
+    0 0 8px 2px var(--paddle-glow),
+    0 0 18px 6px var(--paddle-glow-spread);
+
+  /* tiny rounding to make glow smoother */
+  border-radius: 2px;
+
+  /* smooth transitions when position/size changes */
+  transition: box-shadow 300ms ease, transform 150ms ease;
 }
 
+/* Make paddles white (as requested) */
+#left-paddle { background-color: white; left: 10px; height: 25px; }
+#right-paddle { background-color: white; right: 10px; }
+
+/* Slightly increase glow while paddles are moving (optional enhancement) */
+.paddle.moving {
+  box-shadow:
+    0 0 12px 3px var(--paddle-glow),
+    0 0 28px 10px var(--paddle-glow-spread);
+  transform: translateZ(0); /* hint to GPU for smoother animations */
+}
+
+/* Ball */
 .ball {
   width: 15px;
   height: 15px;
@@ -82,8 +88,12 @@ body {
   position: absolute;
   left: 50px;
   top: 50px;
+
+  /* subtle glow for the ball too (optional) */
+  box-shadow: 0 0 10px 2px rgba(255,240,120,0.7);
 }
 
+/* Scores / other UI */
 .score {
   display: none;
   position: absolute;
@@ -91,11 +101,28 @@ body {
   color: red;
   top: 0;
 }
+#left-score { left: 1%; }
+#right-score { right: 1%; }
 
-#left-score {
-  left: 1%;
-}
+/* Hidden panels (keep your original properties) */
+#instructions, #errors-debug { display: none; }
+#errors { color: red; font-weight: 700; }
 
-#right-score {
-  right: 1%;
+/* ---- Animations ---- */
+@keyframes gamePulse {
+  0% {
+    box-shadow:
+      0 0 22px 4px rgba(255,255,255,0.10),
+      0 0 60px 12px rgba(123,104,238,0.06);
+  }
+  50% {
+    box-shadow:
+      0 0 36px 8px rgba(255,255,255,0.18),
+      0 0 100px 22px rgba(123,104,238,0.12);
+  }
+  100% {
+    box-shadow:
+      0 0 22px 4px rgba(255,255,255,0.10),
+      0 0 60px 12px rgba(123,104,238,0.06);
+  }
 }
