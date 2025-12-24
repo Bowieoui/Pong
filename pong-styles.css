@@ -1,6 +1,7 @@
 /*This file mostly controls the visually look of the game.
 Some properties like position and size get set by the game
-Feel free to play with things like color or font
+Feel free to play with things like color or font. This pong 
+was made with the help of github's copilot and YT tutorials
 */
 
 /* Center the game and use twink.gif as the background */
@@ -9,22 +10,22 @@ html, body {
   margin: 0;
 }
 
-/* Glow & color variables (paddle glow kept) */
+/* Glow & color variables */
 :root{
   --paddle-glow: rgba(255,255,255,0.95); /* paddle highlight */
   --paddle-glow-spread: rgba(123,104,238,0.20); /* paddle colored halo */
 
-  /* Text glow variables — tweak these to change text glow color/intensity */
+  /* Text glow variables */
   --text-color: #ffffff;
   --text-glow-main: rgba(255,255,255,0.95);
   --text-glow-accent: rgba(123,104,238,0.25);
   --text-glow-strong: rgba(123,104,238,0.12);
 }
 
-/* Layout: stack children vertically and center them */
+/* Layout: stack screen vertically and center it */
 body {
   display: flex;
-  flex-direction: column;   /* stack children top → bottom so #game centers properly */
+  flex-direction: column;   /* stack  top → bottom so #game centers properly */
   align-items: center;      /* horizontal center */
   justify-content: center;  /* vertical center */
   min-height: 100vh;
@@ -34,11 +35,10 @@ body {
   background-image: url("./twink.gif");
   background-repeat: no-repeat;
   background-position: center center;
-  background-size: auto; /* do not scale up the image — keeps it sharp */
+  background-size: auto; 
 }
 
 /* Game box centered by flexbox; its size is set by JS */
-/* Removed the border glow per request */
 #game {
   margin: 4px;
   border: 5px solid black;
@@ -55,7 +55,7 @@ body {
   width: 5px;
   position: absolute;
 
-  /* keep paddle glow */
+  
   box-shadow:
     0 0 8px 2px var(--paddle-glow),
     0 0 18px 6px var(--paddle-glow-spread);
@@ -80,14 +80,7 @@ body {
   box-shadow: 0 0 10px 2px rgba(255,240,120,0.7);
 }
 
-/* Text glow rules
-   Applied to:
-   - the top paragraph (your quote)
-   - instruction text
-   - errors/debug blocks
-   - score elements
-   - small status spans (computer/mouse/mute/volume)
-*/
+
 body p,
 #instructions p,
 #errors,
@@ -108,7 +101,7 @@ body p,
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* A helper class you can attach to any element to give it the same glow */
+
 .glow-text {
   color: var(--text-color);
   text-shadow:
@@ -128,6 +121,6 @@ body p,
 #left-score { left: 1%; }
 #right-score { right: 1%; }
 
-/* Hidden panels (keep your original properties) */
+/* Hidden panels */
 #instructions, #errors-debug { display: none; }
 #errors { color: red; font-weight: 700; }
